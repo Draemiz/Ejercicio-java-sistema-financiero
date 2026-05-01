@@ -5,8 +5,8 @@ import com.krakedev.financiero.entidades.Cuenta;
 
 public class Banco {
 	private int ultimoCodigo = 1000;
-	
-	public Banco(){		
+
+	public Banco() {
 	}
 
 	public int getUltimoCodigo() {
@@ -16,55 +16,57 @@ public class Banco {
 	public void setUltimoCodigo(int ultimoCodigo) {
 		this.ultimoCodigo = ultimoCodigo;
 	}
-	
+
 	public Cuenta crearCuenta(Cliente cliente) {
-		
-	    String codigoStr = ultimoCodigo + "";
-	    ultimoCodigo++;
-	    
-	    Cuenta cuenta = new Cuenta(codigoStr);
-	    cuenta.setPropietario(cliente);
-	    return cuenta;
-	    
+
+		String codigoStr = ultimoCodigo + "";
+		ultimoCodigo++;
+
+		Cuenta cuenta = new Cuenta(codigoStr);
+		cuenta.setPropietario(cliente);
+		return cuenta;
+
 	}
-	
-	public boolean depositar (double monto, Cuenta cuenta) {
-		if(monto<=0) {
+
+	public boolean depositar(double monto, Cuenta cuenta) {
+		if (monto <= 0) {
 			return false;
 		}
-		
-		double nuevoSaldo = cuenta.getSaldoActual()+monto;
+
+		double nuevoSaldo = cuenta.getSaldoActual() + monto;
 		cuenta.setSaldoActual(nuevoSaldo);
-		
+
 		return true;
 	}
-	
+
 	public boolean retirar(double monto, Cuenta cuenta) {
 
-	    double saldoActual = cuenta.getSaldoActual();
-	    
-	    if (monto > 0 && monto <= saldoActual) {
+		double saldoActual = cuenta.getSaldoActual();
 
-	        double nuevoSaldo = saldoActual - monto;
-	        cuenta.setSaldoActual(nuevoSaldo);
+		if (monto > 0 && monto <= saldoActual) {
 
-	        return true;
-	    } else {
-	        return false;
-	    }
+			double nuevoSaldo = saldoActual - monto;
+			cuenta.setSaldoActual(nuevoSaldo);
+
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
 	public boolean transferir(Cuenta origen, Cuenta destino, double monto) {
 
-	    
-	    boolean retiroExitoso = retirar(monto, origen);
+		if (origen == null || destino == null) {
+			return false;
+		}
 
-	    if (retiroExitoso) {
-	        depositar(monto, destino);
-	        return true;
-	    } else {
-	        return false;
-	    }
+		boolean retiroExitoso = retirar(monto, origen);
+
+		if (retiroExitoso) {
+			return depositar(monto, destino);
+		}
+
+		return false;
 	}
-	
+
 }
