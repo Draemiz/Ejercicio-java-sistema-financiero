@@ -112,4 +112,15 @@ public class BancoTestJUnit {
 	    assertEquals(50.0, c1.getSaldoActual(), 0.001);
 	    assertEquals(0.0, c2.getSaldoActual(), 0.001);
 	}
+	
+	@Test
+	public void testDepositoCero() {
+	    Banco banco = new Banco();
+	    Cliente cliente = new Cliente("123", "Ale", "Lopez");
+	    Cuenta cuenta = banco.crearCuenta(cliente);
+
+	    boolean resultado = banco.depositar(0, cuenta);
+
+	    assertFalse(resultado);
+	}
 }
